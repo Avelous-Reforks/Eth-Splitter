@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Contact, Split } from "lucide-react";
+import { useTheme } from "next-themes";
 import { useDarkMode } from "usehooks-ts";
 import { hardhat } from "viem/chains";
 import { Bars3Icon } from "@heroicons/react/24/outline";
@@ -67,13 +68,13 @@ export const Header = () => {
   const { targetNetwork } = useTargetNetwork();
   const isLocalNetwork = targetNetwork.id === hardhat.id;
 
-  const { isDarkMode } = useDarkMode();
+  const { resolvedTheme } = useTheme();
   const [logoSrc, setLogoSrc] = useState("/bg.svg");
 
   useEffect(() => {
-    const newLogoSrc = isDarkMode ? "/bg.svg" : "/bg-lm.svg";
+    const newLogoSrc = resolvedTheme === "dark" ? "/bg.svg" : "/bg-lm.svg";
     setLogoSrc(newLogoSrc);
-  }, [isDarkMode]);
+  }, [resolvedTheme]);
 
   const burgerMenuRef = useRef<HTMLDetailsElement>(null);
   useOutsideClick(burgerMenuRef, () => {
